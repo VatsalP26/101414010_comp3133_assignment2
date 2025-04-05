@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+    <span>Employee Management System</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/employees" *ngIf="isLoggedIn()">Employees</button>
+    <button mat-button routerLink="/employee/add" *ngIf="isLoggedIn()">Add Employee</button>
+    <button mat-button routerLink="/employee/search" *ngIf="isLoggedIn()">Search</button>
+    <button mat-button (click)="logout()" *ngIf="isLoggedIn()">Logout</button>
+    <button mat-button routerLink="/login" *ngIf="!isLoggedIn()">Login</button>
+    <button mat-button routerLink="/signup" *ngIf="!isLoggedIn()">Signup</button>
+  </mat-toolbar>
