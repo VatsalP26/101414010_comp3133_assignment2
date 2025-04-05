@@ -1,1 +1,57 @@
-<p>employee-search works!</p>
+<div class="container mt-5">
+    <h2>Search Employees</h2>
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w-100">
+            <mat-label>Designation</mat-label>
+            <input matInput formControlName="designation" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="w-100">
+            <mat-label>Department</mat-label>
+            <input matInput formControlName="department" />
+          </mat-form-field>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" type="submit">Search</button>
+    </form>
+  
+    <table class="table table-striped mt-4" *ngIf="employees.length">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Designation</th>
+          <th>Department</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>
+            <img
+              [src]="employee.employee_photo ? 'http://localhost:2655/' + employee.employee_photo : 'assets/placeholder.jpg'"
+              alt="Employee Photo"
+              width="50"
+              height="50"
+              class="rounded-circle"
+            />
+          </td>
+          <td>{{ employee.first_name }}</td>
+          <td>{{ employee.last_name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.designation }}</td>
+          <td>{{ employee.department }}</td>
+          <td>
+            <button mat-raised-button color="primary" [routerLink]="['/employee/details', employee.id]">
+              View
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

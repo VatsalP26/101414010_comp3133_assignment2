@@ -1,1 +1,45 @@
-<p>employee-list works!</p>
+<div class="container mt-5">
+    <h2>Employee List</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Designation</th>
+          <th>Department</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>
+            <img
+              [src]="employee.employee_photo ? 'http://localhost:2655/' + employee.employee_photo : 'assets/placeholder.jpg'"
+              alt="Employee Photo"
+              width="50"
+              height="50"
+              class="rounded-circle"
+            />
+          </td>
+          <td>{{ employee.first_name }}</td>
+          <td>{{ employee.last_name }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.designation }}</td>
+          <td>{{ employee.department }}</td>
+          <td>
+            <button mat-raised-button color="primary" [routerLink]="['/employee/details', employee.id]">
+              View
+            </button>
+            <button mat-raised-button color="accent" [routerLink]="['/employee/edit', employee.id]" class="ms-2">
+              Edit
+            </button>
+            <button mat-raised-button color="warn" (click)="deleteEmployee(employee.id)" class="ms-2">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
