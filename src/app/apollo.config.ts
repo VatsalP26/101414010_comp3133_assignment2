@@ -8,7 +8,7 @@ export const APOLLO_CLIENT = new InjectionToken<ApolloClient<any>>('ApolloClient
 
 export function provideApollo(): Provider {
   const uploadLink = createUploadLink({
-    uri: 'https://comp3133-101414010-assignment1.onrender.com/graphql',
+    uri: 'http://localhost:2655/graphql',
   });
 
   const authLink = setContext((_, { headers }) => {
