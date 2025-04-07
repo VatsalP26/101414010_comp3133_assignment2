@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   constructor() {
-    console.log('LoginComponent initialized'); // Debug log
+    console.log('LoginComponent initialized'); 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -46,19 +46,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('LoginComponent ngOnInit'); // Debug log
+    console.log('LoginComponent ngOnInit'); 
   }
 
   async onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      console.log('Submitting login with:', { email, password }); // Debug log
+      console.log('Submitting login with:', { email, password }); 
       try {
         const result = await this.apollo.mutate({
           mutation: LOGIN,
           variables: { email, password },
         });
-        console.log('Login result:', result); // Debug log
+        console.log('Login result:', result); 
         const token = result.data?.login.token;
         if (token) {
           this.authService.setToken(token);
@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
           });
         }
       } catch (error: any) {
-        console.error('Login error:', error); // Debug log
+        console.error('Login error:', error); 
         this.snackBar.open(error.message || 'Login failed', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],

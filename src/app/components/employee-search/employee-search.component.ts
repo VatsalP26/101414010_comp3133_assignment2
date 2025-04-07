@@ -23,7 +23,6 @@ import { SEARCH_EMPLOYEES } from '../../graphql/employee.graphql';
     MatButtonModule,
     MatTableModule,
     MatSnackBarModule,
-    // Remove RouterLink from imports
   ],
   templateUrl: './employee-search.component.html',
   styleUrls: ['./employee-search.component.scss'],

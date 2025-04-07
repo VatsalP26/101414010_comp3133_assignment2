@@ -33,7 +33,7 @@ import { Observable } from 'rxjs';
     .navbar {
       padding: 0 20px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      background: linear-gradient(90deg, #1976d2, #42a5f5);
+      background: linear-gradient(90deg, #2196f3, #42a5f5); 
     }
 
     .logo {
@@ -59,12 +59,12 @@ import { Observable } from 'rxjs';
       transition: color 0.3s ease, transform 0.2s ease;
 
       &.active {
-        color: #ffca28; // Accent color
+        color:rgb(77, 54, 83); 
         font-weight: 500;
       }
 
       &:hover {
-        color: #ffca28;
+        color:rgb(67, 46, 112); 
         transform: translateY(-2px);
       }
     }
@@ -78,12 +78,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('AppComponent ngOnInit'); 
+    console.log('AppComponent ngOnInit');
     this.isLoggedIn$ = this.authService.isLoggedIn();
   }
 
   logout() {
-    console.log('Logging out'); 
+    console.log('Logging out');
     this.authService.logout();
     this.router.navigate(['/login']);
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router'; // Remove RouterLink import
+import { Router } from '@angular/router'; 
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,6 @@ import { GET_EMPLOYEES, DELETE_EMPLOYEE } from '../../graphql/employee.graphql';
     MatTableModule,
     MatButtonModule,
     MatSnackBarModule,
-    // Remove RouterLink from imports
   ],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],

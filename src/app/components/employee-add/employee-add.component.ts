@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common'; 
 import { Router } from '@angular/router';
 import { APOLLO_CLIENT } from '../../apollo.config';
 import { ApolloClient } from '@apollo/client/core';
@@ -18,7 +18,7 @@ import { ADD_EMPLOYEE } from '../../graphql/employee.graphql';
   selector: 'app-employee-add',
   standalone: true,
   imports: [
-    CommonModule, // Add CommonModule to imports
+    CommonModule, 
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -57,24 +57,23 @@ export class EmployeeAddComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         this.snackBar.open('File size exceeds 5MB limit', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
         this.selectedFile = null;
-        input.value = ''; // Reset the file input
+        input.value = ''; 
         return;
       }
-      // Validate file type (jpg or png)
+    
       if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
         this.snackBar.open('Only JPG and PNG files are allowed', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
         this.selectedFile = null;
-        input.value = ''; // Reset the file input
+        input.value = ''; 
         return;
       }
       this.selectedFile = file;
@@ -102,7 +101,7 @@ export class EmployeeAddComponent {
         mutation: ADD_EMPLOYEE,
         variables: { input: employeeInput },
         context: {
-          useMultipart: true, // Required for file uploads
+          useMultipart: true, 
         },
       });
 

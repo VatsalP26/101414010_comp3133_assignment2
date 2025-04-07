@@ -36,7 +36,7 @@ export class EmployeeEditComponent implements OnInit {
   employeeForm: FormGroup;
   employeeId: string | null = null;
   employee: any;
-  selectedFile: File | null = null; // Add property to store the selected file
+  selectedFile: File | null = null; 
   private apollo = inject<ApolloClient<any>>(APOLLO_CLIENT);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -53,7 +53,6 @@ export class EmployeeEditComponent implements OnInit {
       salary: ['', [Validators.required, Validators.min(1000)]],
       date_of_joining: ['', Validators.required],
       department: ['', Validators.required],
-      // Remove file from form control since we'll handle it separately
     });
   }
 
@@ -93,24 +92,23 @@ export class EmployeeEditComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const file = input.files[0];
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         this.snackBar.open('File size exceeds 5MB limit', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
         this.selectedFile = null;
-        input.value = ''; // Reset the file input
+        input.value = ''; 
         return;
       }
-      // Validate file type (jpg or png)
+      
       if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
         this.snackBar.open('Only JPG and PNG files are allowed', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
         this.selectedFile = null;
-        input.value = ''; // Reset the file input
+        input.value = ''; 
         return;
       }
       this.selectedFile = file;
@@ -123,7 +121,7 @@ export class EmployeeEditComponent implements OnInit {
         ...this.employeeForm.value,
         salary: parseFloat(this.employeeForm.value.salary),
         date_of_joining: this.employeeForm.value.date_of_joining.toISOString(),
-        employee_photo: this.selectedFile, // Use the selected file
+        employee_photo: this.selectedFile, 
       };
 
       try {
@@ -131,10 +129,10 @@ export class EmployeeEditComponent implements OnInit {
           mutation: UPDATE_EMPLOYEE,
           variables: {
             id: this.employeeId,
-            input: employeeInput, // Pass as input object
+            input: employeeInput, 
           },
           context: {
-            useMultipart: true, // Required for file uploads
+            useMultipart: true, 
           },
         });
         this.snackBar.open('Employee updated successfully', 'Close', {
