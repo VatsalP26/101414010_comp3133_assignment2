@@ -1,57 +1,50 @@
-<div class="container mt-5">
-    <h2>Search Employees</h2>
-    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field class="w-100">
-            <mat-label>Designation</mat-label>
-            <input matInput formControlName="designation" />
-          </mat-form-field>
-        </div>
-        <div class="col-md-6">
-          <mat-form-field class="w-100">
-            <mat-label>Department</mat-label>
-            <input matInput formControlName="department" />
-          </mat-form-field>
-        </div>
-      </div>
-      <button mat-raised-button color="primary" type="submit">Search</button>
-    </form>
+<mat-card class="search-card">
+    <mat-card-header>
+      <mat-card-title>Search Employees</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+        <mat-form-field appearance="fill">
+          <mat-label>Designation</mat-label>
+          <input matInput formControlName="designation" />
+        </mat-form-field>
   
-    <table class="table table-striped mt-4" *ngIf="employees.length">
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Designation</th>
-          <th>Department</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees">
-          <td>
-            <img
-              [src]="employee.employee_photo ? 'http://localhost:2655/' + employee.employee_photo : 'assets/placeholder.jpg'"
-              alt="Employee Photo"
-              width="50"
-              height="50"
-              class="rounded-circle"
-            />
-          </td>
-          <td>{{ employee.first_name }}</td>
-          <td>{{ employee.last_name }}</td>
-          <td>{{ employee.email }}</td>
-          <td>{{ employee.designation }}</td>
-          <td>{{ employee.department }}</td>
-          <td>
-            <button mat-raised-button color="primary" [routerLink]="['/employee/details', employee.id]">
-              View
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Department</mat-label>
+          <input matInput formControlName="department" />
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit">Search</button>
+      </form>
+  
+      <table mat-table [dataSource]="employees" class="mat-elevation-z8">
+        <ng-container matColumnDef="first_name">
+          <th mat-header-cell *matHeaderCellDef>First Name</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.first_name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="last_name">
+          <th mat-header-cell *matHeaderCellDef>Last Name</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.last_name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef>Designation</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.designation }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef>Department</th>
+          <td mat-cell *matCellDef="let employee">{{ employee.department }}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>

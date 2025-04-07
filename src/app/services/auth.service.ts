@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -17,8 +17,12 @@ export class AuthService {
     }
   }
 
-  isLoggedIn() {
+  isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.token;
   }
 
   setToken(token: string) {

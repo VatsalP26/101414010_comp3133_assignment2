@@ -3,11 +3,12 @@ import { AuthService } from '../../services/auth.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Add this import
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, RouterLink],
+  imports: [MatToolbarModule, MatButtonModule, RouterLink, CommonModule], // Add CommonModule
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

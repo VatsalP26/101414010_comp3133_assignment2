@@ -1,2 +1,9 @@
-<app-header></app-header>
+<mat-toolbar color="primary">
+  <span class="logo">Employee Management</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/employees" routerLinkActive="active">Employees</a>
+  <a mat-button routerLink="/employee/add" routerLinkActive="active">Add Employee</a>
+  <a mat-button routerLink="/employee/search" routerLinkActive="active">Search Employee</a>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
 <router-outlet></router-outlet>

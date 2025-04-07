@@ -1,14 +1,19 @@
-import { APOLLO_OPTIONS } from '@apollo/client/core';
-import { HttpLink } from '@apollo/client/link/http';
-import { InMemoryCache } from '@apollo/client/cache';
+import { ApolloClient, InMemoryCache } from '@apollo/client/core';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'; // Use default import
 import { setContext } from '@apollo/client/link/context';
-import { AuthService } from './services/auth.service';
+import { onError } from '@apollo/client/link/error';
+import { InjectionToken, Provider } from '@angular/core';
 
-export function provideApollo() {
-  const httpLink = new HttpLink({ uri: 'http://localhost:2655/graphql' });
+export const APOLLO_CLIENT = new InjectionToken<ApolloClient<any>>('ApolloClient');
+
+export function provideApollo(): Provider {
+  const uploadLink = createUploadLink({
+    uri: 'http://localhost:2655/graphql',
+  });
 
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('token');
+    console.log('Auth Link - Token:', token);
     return {
       headers: {
         ...headers,
@@ -17,12 +22,35 @@ export function provideApollo() {
     };
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.error(
+          `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`
+        )
+      );
+    }
+    if (networkError) {
+      console.error('[Network error]:', networkError);
+    }
+  });
+
+  const client = new ApolloClient({
+    link: errorLink.concat(authLink.concat(uploadLink)),
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'network-only',
+        errorPolicy: 'all',
+      },
+      mutate: {
+        errorPolicy: 'all',
+      },
+    },
+  });
+
   return {
-    provide: APOLLO_OPTIONS,
-    useFactory: () => ({
-      link: authLink.concat(httpLink),
-      cache: new InMemoryCache(),
-    }),
-    deps: [HttpLink],
+    provide: APOLLO_CLIENT,
+    useValue: client,
   };
 }

@@ -1,9 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Global styles
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(to bottom, #f5f7fa, #e0e7ff);
+  min-height: 100vh;
+}
+
+.success-snackbar {
+  background-color: #4caf50;
+  color: white;
+}
 
 .error-snackbar {
-    background-color: #f44336;
-    color: white;
-  }
+  background-color: #d32f2f;
+  color: white;
+}

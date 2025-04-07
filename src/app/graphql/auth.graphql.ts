@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core';
+import { gql } from '@apollo/client'; // Update this import
 
 export const LOGIN = gql`
   query Login($email: String!, $password: String!) {

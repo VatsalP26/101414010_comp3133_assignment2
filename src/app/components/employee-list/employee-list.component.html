@@ -1,45 +1,38 @@
-<div class="container mt-5">
-    <h2>Employee List</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Designation</th>
-          <th>Department</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees">
-          <td>
-            <img
-              [src]="employee.employee_photo ? 'http://localhost:2655/' + employee.employee_photo : 'assets/placeholder.jpg'"
-              alt="Employee Photo"
-              width="50"
-              height="50"
-              class="rounded-circle"
-            />
-          </td>
-          <td>{{ employee.first_name }}</td>
-          <td>{{ employee.last_name }}</td>
-          <td>{{ employee.email }}</td>
-          <td>{{ employee.designation }}</td>
-          <td>{{ employee.department }}</td>
-          <td>
-            <button mat-raised-button color="primary" [routerLink]="['/employee/details', employee.id]">
-              View
-            </button>
-            <button mat-raised-button color="accent" [routerLink]="['/employee/edit', employee.id]" class="ms-2">
-              Edit
-            </button>
-            <button mat-raised-button color="warn" (click)="deleteEmployee(employee.id)" class="ms-2">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<table mat-table [dataSource]="employees" class="mat-elevation-z8">
+    <ng-container matColumnDef="first_name">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.first_name }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="last_name">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.last_name }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.email }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="designation">
+      <th mat-header-cell *matHeaderCellDef>Designation</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.designation }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef>Department</th>
+      <td mat-cell *matCellDef="let employee">{{ employee.department }}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let employee">
+        <button mat-button color="primary" (click)="viewEmployee(employee.id)">View</button>
+        <button mat-button color="accent" (click)="editEmployee(employee.id)">Edit</button>
+        <button mat-button color="warn" (click)="deleteEmployee(employee.id)">Delete</button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

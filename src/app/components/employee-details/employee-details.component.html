@@ -1,29 +1,19 @@
-<div class="container mt-5">
-    <h2>Employee Details</h2>
-    <mat-card *ngIf="employee">
-      <mat-card-content>
-        <div class="row">
-          <div class="col-md-4">
-            <img
-              [src]="employee.employee_photo ? 'http://localhost:2655/' + employee.employee_photo : 'assets/placeholder.jpg'"
-              alt="Employee Photo"
-              class="img-fluid rounded-circle"
-            />
-          </div>
-          <div class="col-md-8">
-            <p><strong>First Name:</strong> {{ employee.first_name }}</p>
-            <p><strong>Last Name:</strong> {{ employee.last_name }}</p>
-            <p><strong>Email:</strong> {{ employee.email }}</p>
-            <p><strong>Gender:</strong> {{ employee.gender }}</p>
-            <p><strong>Designation:</strong> {{ employee.designation }}</p>
-            <p><strong>Salary:</strong> {{ employee.salary | currency }}</p>
-            <p><strong>Date of Joining:</strong> {{ employee.date_of_joining | date }}</p>
-            <p><strong>Department:</strong> {{ employee.department }}</p>
-          </div>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/employees">Back to List</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+<mat-card class="employee-card" *ngIf="employee">
+    <mat-card-header>
+      <mat-card-title>Employee Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p><strong>First Name:</strong> {{ employee.first_name }}</p>
+      <p><strong>Last Name:</strong> {{ employee.last_name }}</p>
+      <p><strong>Email:</strong> {{ employee.email }}</p>
+      <p><strong>Gender:</strong> {{ employee.gender }}</p>
+      <p><strong>Designation:</strong> {{ employee.designation }}</p>
+      <p><strong>Salary:</strong> {{ employee.salary }}</p>
+      <p><strong>Date of Joining:</strong> {{ employee.date_of_joining | date }}</p>
+      <p><strong>Department:</strong> {{ employee.department }}</p>
+      <p *ngIf="employee.employee_photo">
+        <strong>Photo:</strong>
+        <img [src]="'http://localhost:2655/' + employee.employee_photo" alt="Employee Photo" style="max-width: 200px;" />
+      </p>
+    </mat-card-content>
+  </mat-card>

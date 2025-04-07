@@ -1,56 +1,85 @@
-import { Component, OnInit } from '@angular/core';
-import { Apollo } from '@apollo/client/core';
-import { GET_ALL_EMPLOYEES, DELETE_EMPLOYEE } from '../graphql/employee.graphql';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router'; // Remove RouterLink import
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { APOLLO_CLIENT } from '../../apollo.config';
+import { ApolloClient } from '@apollo/client/core';
+import { GET_EMPLOYEES, DELETE_EMPLOYEE } from '../../graphql/employee.graphql';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, RouterLink], // Import necessary modules
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    // Remove RouterLink from imports
+  ],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],
 })
 export class EmployeeListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'first_name',
+    'last_name',
+    'email',
+    'designation',
+    'department',
+    'actions',
+  ];
   employees: any[] = [];
-
-  constructor(
-    private apollo: Apollo,
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  private apollo = inject<ApolloClient<any>>(APOLLO_CLIENT);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
-    this.authService.isLoggedIn().subscribe((loggedIn) => {
-      if (!loggedIn) {
-        this.router.navigate(['/login']);
-      } else {
-        this.loadEmployees();
-      }
-    });
+    this.loadEmployees();
   }
 
-  loadEmployees() {
-    this.apollo
-      .query({ query: GET_ALL_EMPLOYEES })
-      .subscribe((result: any) => {
-        this.employees = result.data.getAllEmployees;
+  async loadEmployees() {
+    try {
+      const result = await this.apollo.query({
+        query: GET_EMPLOYEES,
+        fetchPolicy: 'network-only',
       });
+      this.employees = result.data.getAllEmployees;
+    } catch (error: any) {
+      this.snackBar.open('Error loading employees: ' + error.message, 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }
   }
 
-  deleteEmployee(id: string) {
+  viewEmployee(id: string) {
+    this.router.navigate([`/employee/details/${id}`]);
+  }
+
+  editEmployee(id: string) {
+    this.router.navigate([`/employee/edit/${id}`]);
+  }
+
+  async deleteEmployee(id: string) {
     if (confirm('Are you sure you want to delete this employee?')) {
-      this.apollo
-        .mutate({
+      try {
+        const result = await this.apollo.mutate({
           mutation: DELETE_EMPLOYEE,
           variables: { id },
-          refetchQueries: [{ query: GET_ALL_EMPLOYEES }],
-        })
-        .subscribe(() => {
-          alert('Employee deleted successfully');
+          refetchQueries: [{ query: GET_EMPLOYEES }],
         });
+        this.snackBar.open('Employee deleted successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+      } catch (error: any) {
+        this.snackBar.open('Error deleting employee: ' + error.message, 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+      }
     }
   }
 }
